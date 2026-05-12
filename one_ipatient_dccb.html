@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One iPatient DCCB</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue-deep: #003c6e;
+    --blue-mid: #0072c6;
+    --blue-light: #e8f4fd;
+    --teal: #00a8a8;
+    --teal-light: #e0f7f7;
+    --amber: #f59e0b;
+    --amber-light: #fef3c7;
+    --green: #10b981;
+    --green-light: #d1fae5;
+    --red: #ef4444;
+    --red-light: #fee2e2;
+    --neutral-50: #f8fafc;
+    --neutral-100: #f1f5f9;
+    --neutral-200: #e2e8f0;
+    --neutral-400: #94a3b8;
+    --neutral-600: #475569;
+    --neutral-800: #1e293b;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.05);
+    --shadow-lg: 0 10px 32px rgba(0,0,0,0.1);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--neutral-50);
+    color: var(--neutral-800);
+    min-height: 100vh;
+  }
+
+  /* ── Top Banner ── */
+  .top-bar {
+    background: var(--blue-deep);
+    padding: 0 32px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .top-bar .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .philips-shield {
+    width: 28px; height: 28px;
+    background: #0072c6;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .top-bar .nav-links {
+    display: flex; gap: 24px;
+  }
+  .top-bar .nav-links a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 12px;
+    transition: color 0.2s;
+  }
+  .top-bar .nav-links a:hover { color: #fff; }
+
+  /* ── Hero Header ── */
+  .hero {
+    background: linear-gradient(135deg, var(--blue-deep) 0%, #005fa3 55%, var(--teal) 100%);
+    padding: 48px 40px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 14px;
+    color: rgba(255,255,255,0.9);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .hero h1 span { color: #5ed8d8; }
+  .hero p.subtitle {
+    color: rgba(255,255,255,0.75);
+    font-size: 15px;
+    max-width: 560px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .hero-stat .val {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .hero-stat .lbl {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .hero-divider { width: 1px; background: rgba(255,255,255,0.2); }
+
+  /* ── Main Layout ── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 36px 24px 60px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 28px;
+    align-items: start;
+  }
+  .col-left { display: flex; flex-direction: column; gap: 28px; }
+  .col-right { display: flex; flex-direction: column; gap: 24px; }
+
+  /* ── Card ── */
+  .card {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--neutral-200);
+    overflow: hidden;
+  }
+  .card-head {
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid var(--neutral-100);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-head-icon {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+  .card-head h2 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--neutral-800);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .card-body { padding: 20px 24px; }
+
+  /* ── Action Buttons (Quick Links) ── */
+  .action-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 16px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .action-btn::after {
+    content: '→';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.2s, right 0.2s;
+  }
+  .action-btn:hover::after { opacity: 1; right: 10px; }
+  .action-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+  .action-btn.blue { background: var(--blue-light); border-color: #bfddf5; }
+  .action-btn.blue:hover { background: #d6ecfa; border-color: var(--blue-mid); }
+  .action-btn.blue .btn-icon { color: var(--blue-mid); }
+  .action-btn.blue .btn-label { color: var(--blue-deep); }
+
+  .action-btn.teal { background: var(--teal-light); border-color: #b0e8e8; }
+  .action-btn.teal:hover { background: #c4efef; border-color: var(--teal); }
+  .action-btn.teal .btn-icon { color: var(--teal); }
+  .action-btn.teal .btn-label { color: #005a5a; }
+
+  .action-btn.amber { background: var(--amber-light); border-color: #f5d990; }
+  .action-btn.amber:hover { background: #fde9a2; border-color: var(--amber); }
+  .action-btn.amber .btn-icon { color: var(--amber); }
+  .action-btn.amber .btn-label { color: #7a4e00; }
+
+  .action-btn.green { background: var(--green-light); border-color: #9fe8cb; }
+  .action-btn.green:hover { background: #bbf0da; border-color: var(--green); }
+  .action-btn.green .btn-icon { color: var(--green); }
+  .action-btn.green .btn-label { color: #065f46; }
+
+  .btn-icon { font-size: 22px; }
+  .btn-label {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .btn-desc {
+    font-size: 11px;
+    color: var(--neutral-600);
+    line-height: 1.4;
+  }
+
+  /* ── Products Table ── */
+  .products-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .products-table th {
+    text-align: left;
+    padding: 8px 14px;
+    background: var(--neutral-100);
+    color: var(--neutral-600);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--neutral-200);
+  }
+  .products-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--neutral-100);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .products-table tr:last-child td { border-bottom: none; }
+  .product-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 4px;
+    margin-bottom: 3px;
+  }
+  .tag-legacy { background: #e0e7ff; color: #3730a3; }
+  .tag-premium { background: #fce7f3; color: #9d174d; }
+  .tag-ami { background: #d1fae5; color: #065f46; }
+
+  /* ── Timings ── */
+  .timing-card {
+    border: 1px solid var(--neutral-200);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .timing-head {
+    background: linear-gradient(90deg, var(--blue-deep), #0060a8);
+    color: #fff;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .timing-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .tz-cell {
+    padding: 12px 14px;
+    border-right: 1px solid var(--neutral-100);
+    border-bottom: 1px solid var(--neutral-100);
+  }
+  .tz-cell:last-child { border-right: none; }
+  .tz-name {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--neutral-400);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 5px;
+  }
+  .tz-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--blue-deep);
+    line-height: 1.4;
+  }
+  .tz-note {
+    font-size: 10px;
+    color: var(--neutral-400);
+    margin-top: 2px;
+  }
+
+  /* ── Ways of Working ── */
+  .wow-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .wow-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--neutral-600);
+  }
+  .wow-dot {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--blue-light);
+    color: var(--blue-mid);
+    font-size: 10px;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .wow-item strong { color: var(--neutral-800); }
+
+  /* ── Right sidebar ── */
+  .alert-box {
+    background: #fff8e6;
+    border: 1.5px solid #fbd669;
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    display: flex;
+    gap: 10px;
+    font-size: 12.5px;
+    color: #7a4e00;
+    line-height: 1.55;
+  }
+  .alert-icon { font-size: 18px; flex-shrink: 0; }
+
+  .ref-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .ref-table th {
+    text-align: left;
+    padding: 7px 10px;
+    background: var(--neutral-100);
+    color: var(--neutral-600);
+    font-weight: 600;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--neutral-200);
+  }
+  .ref-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--neutral-100);
+    color: var(--neutral-600);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  .ref-table tr:last-child td { border-bottom: none; }
+  .ref-doc-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--blue-mid);
+  }
+
+  /* ── Mini note ── */
+  .info-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--blue-light);
+    border: 1px solid #bfddf5;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--blue-deep);
+    line-height: 1.5;
+  }
+  .info-pill-icon { font-size: 16px; flex-shrink: 0; }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--blue-deep);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 20px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+  footer strong { color: rgba(255,255,255,0.8); }
+
+  @media (max-width: 780px) {
+    .main { grid-template-columns: 1fr; }
+    .action-grid { grid-template-columns: 1fr; }
+    .timing-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="brand">
+    <div class="philips-shield">🏥</div>
+    Philips Healthcare · iPatient DCCB
+  </div>
+  <nav class="nav-links">
+    <a href="https://share.philips.com/sites/CRBLCMPremium" target="_blank">SharePoint Home</a>
+    <a href="https://teams.microsoft.com/l/team/19%3AVRmGdyhWFz6iqXJ4mLbhyjn_DZTIFYo8RSmiBEXQUJk1%40thread.tacv2/conversations?groupId=b48269da-a110-4e9a-8122-dc1e93b50d28&tenantId=1a407a2d-7675-4d17-8692-b3ac285306e4" target="_blank">Teams</a>
+    <a href="https://share.philips.com/sites/CRBLCMPremium/Lists/WorkTracker/AllItems.aspx" target="_blank">Work Tracker</a>
+  </nav>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">📋 Design Change Control Board</div>
+    <h1>One iPatient <span>DCCB</span></h1>
+    <p class="subtitle">Unified cross-site collaboration across Pune, Haifa, Suzhou and Shenyang teams. Legacy CT · Premium CT · AMI under one standardized review process.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="val">2×</div>
+        <div class="lbl">Weekly CCBs</div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <div class="val">4</div>
+        <div class="lbl">Time Zones</div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <div class="val">&lt;15 min</div>
+        <div class="lbl">Per Change Target</div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <div class="val">5 days</div>
+        <div class="lbl">CR Routing SLA</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="main">
+
+  <!-- LEFT COLUMN -->
+  <div class="col-left">
+
+    <!-- Quick Action Links -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon" style="background:#e8f4fd">🔗</div>
+        <h2>Quick Actions</h2>
+      </div>
+      <div class="card-body">
+        <div class="action-grid">
+
+          <a href="https://share.philips.com/sites/CRBLCMPremium/_layouts/15/listforms.aspx?cid=MDc2MGYyY2MtYzYxMi00MjkyLTk1NTYtYmU3MmFkMjFkMDYw&nav=NGQ1Y2IwYjEtODY0Yy00ZDUzLWI0ODYtMTNhZjYzMjc4M2Yw" target="_blank" class="action-btn teal">
+            <div class="btn-icon">📅</div>
+            <div class="btn-label">Book a DCCB Slot</div>
+            <div class="btn-desc">Submit your CIP/DCR change request</div>
+          </a>
+
+          <a href="https://teams.microsoft.com/l/team/19%3AVRmGdyhWFz6iqXJ4mLbhyjn_DZTIFYo8RSmiBEXQUJk1%40thread.tacv2/conversations?groupId=b48269da-a110-4e9a-8122-dc1e93b50d28&tenantId=1a407a2d-7675-4d17-8692-b3ac285306e4" target="_blank" class="action-btn blue">
+            <div class="btn-icon">💬</div>
+            <div class="btn-label">Join Teams Channel</div>
+            <div class="btn-desc">Open the DCCB Microsoft Teams space</div>
+          </a>
+
+          <a href="https://share.philips.com/sites/CRBLCMPremium/Lists/WorkTracker/AllItems.aspx" target="_blank" class="action-btn amber">
+            <div class="btn-icon">📊</div>
+            <div class="btn-label">Work Tracker</div>
+            <div class="btn-desc">View status &amp; past CRB decisions</div>
+          </a>
+
+          <a href="https://share.philips.com/sites/CRBLCMPremium" target="_blank" class="action-btn blue">
+            <div class="btn-icon">🏠</div>
+            <div class="btn-label">DCCB SharePoint</div>
+            <div class="btn-desc">Main SharePoint site home</div>
+          </a>
+
+          <a href="https://share.philips.com/:b:/s/CRBLCMPremium/IQBS8d3c232oTIwjWWqAH8JuAUxUGGno8eTWcTGZlKc7hmA?e=IY8gEX" target="_blank" class="action-btn green">
+            <div class="btn-icon">📄</div>
+            <div class="btn-label">Booking Instructions</div>
+            <div class="btn-desc">PDF guide to booking a CRB session</div>
+          </a>
+
+          <a href="https://share.philips.com/:w:/s/CRBLCMPremium/IQD8xUO0fi1BQ6E3p9M-v2syAcxdZH2n-Wwbk24RvQsVuIs?e=EbhnJ3" target="_blank" class="action-btn green">
+            <div class="btn-icon">📝</div>
+            <div class="btn-label">DCCB WoW Document</div>
+            <div class="btn-desc">Ways of Working – One iPatient CCB</div>
+          </a>
+
+          <a href="https://share.philips.com/:x:/s/CRBLCMPremium/IQAQPTeSLj5tQokU7Dj1FzPxAe7lKFjPRSWLLD69MIk4u_A?e=XtmKcI" target="_blank" class="action-btn amber">
+            <div class="btn-icon">👥</div>
+            <div class="btn-label">Member List</div>
+            <div class="btn-desc">iPatient CCB Members spreadsheet</div>
+          </a>
+
+          <a href="https://share.philips.com/sites/CRBLCMPremium" target="_blank" class="action-btn teal">
+            <div class="btn-icon">🔐</div>
+            <div class="btn-label">Request Access</div>
+            <div class="btn-desc">Get Teams/SharePoint permissions once</div>
+          </a>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- DCCB Timings -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon" style="background:#e0f7f7">🕐</div>
+        <h2>Meeting Timings — Tuesday &amp; Thursday</h2>
+      </div>
+      <div class="card-body" style="padding:0">
+        <div class="timing-grid">
+          <div class="tz-cell">
+            <div class="tz-name">🇨🇳 China</div>
+            <div class="tz-time">2:00 PM<br>– 3:15 PM</div>
+          </div>
+          <div class="tz-cell">
+            <div class="tz-name">🇮🇳 India</div>
+            <div class="tz-time">11:30 AM<br>– 12:45 PM</div>
+          </div>
+          <div class="tz-cell">
+            <div class="tz-name">🇮🇱 Haifa</div>
+            <div class="tz-time">9:00 AM<br>– 10:15 AM</div>
+            <div class="tz-note">IDT / 8:00–9:15 IST</div>
+          </div>
+          <div class="tz-cell">
+            <div class="tz-name">🇳🇱 Nederland</div>
+            <div class="tz-time">8:00 AM<br>– 9:15 AM</div>
+            <div class="tz-note">CEST / 7:00–8:15 CET</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products Covered -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon" style="background:#fce7f3">🩻</div>
+        <h2>Products Covered</h2>
+      </div>
+      <div class="card-body" style="padding:0">
+        <table class="products-table">
+          <thead>
+            <tr><th>Product Line</th><th>Platforms</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="product-tag tag-legacy">Legacy CT</span></td>
+              <td>
+                <span class="product-tag tag-legacy">Ingenuity</span>
+                <span class="product-tag tag-legacy">BR64</span>
+                <span class="product-tag tag-legacy">iCT</span>
+                <span class="product-tag tag-legacy">IQon</span>
+                <span class="product-tag tag-legacy">BB*</span>
+                <span class="product-tag tag-legacy">MX16*</span>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="product-tag tag-premium">Premium CT</span></td>
+              <td>
+                <span class="product-tag tag-premium">Hawk</span>
+                <span class="product-tag tag-premium">Thor</span>
+                <span class="product-tag tag-premium">Freddie</span>
+                <span class="product-tag tag-premium">Oceanus</span>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="product-tag tag-ami">AMI</span></td>
+              <td>
+                <span class="product-tag tag-ami">SPECT: CMD, Forte, Skylight, BV Family</span><br>
+                <span class="product-tag tag-ami">PET: Ingenuity &amp; Gemini Family, Vereos</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Ways of Working -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon" style="background:#d1fae5">⚙️</div>
+        <h2>Ways of Working</h2>
+      </div>
+      <div class="card-body">
+        <ul class="wow-list">
+          <li class="wow-item"><div class="wow-dot">1</div><span>Submit a <strong>single CIP/DCR</strong> via the Booking Tool. Additional documents go into the auto-created dedicated Teams channel.</span></li>
+          <li class="wow-item"><div class="wow-dot">2</div><span><strong>Change Lead &amp; Program Lead</strong> must conduct a Pre-Review with all DCCB members before the meeting.</span></li>
+          <li class="wow-item"><div class="wow-dot">3</div><span>All <strong>CFT members</strong> pre-review the CIP/DCR and complete impact assessments before the DCCB meeting. No open topics in the meeting.</span></li>
+          <li class="wow-item"><div class="wow-dot">4</div><span><strong>DQE</strong> confirms completeness of CIP/DCR (including GDP). Then update Work Tracker: <strong>"Ready for CRB"</strong>.</span></li>
+          <li class="wow-item"><div class="wow-dot">5</div><span>Incomplete forms are sent back or taken last — decided by DCCB Chair.</span></li>
+          <li class="wow-item"><div class="wow-dot">6</div><span>Always present from the <strong>Live Shared Copy</strong> in the Teams channel. Offline copies are not allowed.</span></li>
+          <li class="wow-item"><div class="wow-dot">7</div><span><strong>CR Number must be created</strong> in Windchill before the DCCB. Route CR within <strong>5 working days</strong> post-DCCB.</span></li>
+          <li class="wow-item"><div class="wow-dot">8</div><span>Recommended changes from DCCB → email to all members for comments before routing in Windchill.</span></li>
+          <li class="wow-item"><div class="wow-dot">9</div><span><strong>RA Impact TAT</strong>: 1 day for simple changes, 3 days for complex (Refresh, CAPA, etc.).</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT COLUMN -->
+  <div class="col-right">
+
+    <div class="alert-box">
+      <div class="alert-icon">⚠️</div>
+      <div>Everyone must request access to Teams/SharePoint once before joining. Use the <strong>Booking Link</strong> to submit DCCB requests — it auto-creates a dedicated Teams channel with your CR# as title.</div>
+    </div>
+
+    <div class="info-pill">
+      <div class="info-pill-icon">📌</div>
+      <div>Attend only if the change pertains to <strong>your product</strong>. Agenda shared via Teams Chat/E-mail as a reminder.</div>
+    </div>
+
+    <!-- References Card -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon" style="background:#f1f5f9">📚</div>
+        <h2>Reference Documents</h2>
+      </div>
+      <div class="card-body" style="padding:0">
+        <table class="ref-table">
+          <thead>
+            <tr><th>Doc ID</th><th>Title</th><th>Ver.</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="ref-doc-id">2003000003</div></td>
+              <td>Change and Release Product Documentation CT-AMI</td>
+              <td>06</td>
+            </tr>
+            <tr>
+              <td><div class="ref-doc-id">2003001064</div></td>
+              <td>Change Request and Change Plan Template CT-AMI</td>
+              <td>02</td>
+            </tr>
+            <tr>
+              <td><div class="ref-doc-id">2003001701</div></td>
+              <td>Impact Assessment &amp; Execution of Design Changes Guideline (CT-AMI)</td>
+              <td>01</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="padding:10px 12px; font-size:11px; color:var(--neutral-400);">All documents hosted on QMS-0014 · Effective 10-Dec-2024</div>
+      </div>
+    </div>
+
+    <!-- Key Reminders -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon" style="background:#fee2e2">🎯</div>
+        <h2>Key Reminders</h2>
+      </div>
+      <div class="card-body" style="display:flex; flex-direction:column; gap:10px;">
+        <div style="font-size:12.5px; color:var(--neutral-600); display:flex; gap:8px; align-items:flex-start;">
+          <span>⏱️</span><span>Target <strong>&lt;15 min</strong> per change in DCCB. It's an expensive meeting — be concise.</span>
+        </div>
+        <div style="font-size:12.5px; color:var(--neutral-600); display:flex; gap:8px; align-items:flex-start;">
+          <span>📁</span><span>Teams channel is the <strong>single source of truth</strong> for CIP/DCR. Same file for impact assessment &amp; presentation.</span>
+        </div>
+        <div style="font-size:12.5px; color:var(--neutral-600); display:flex; gap:8px; align-items:flex-start;">
+          <span>📬</span><span>Feel free to <strong>forward the DCCB invite</strong> to required team members.</span>
+        </div>
+        <div style="font-size:12.5px; color:var(--neutral-600); display:flex; gap:8px; align-items:flex-start;">
+          <span>✅</span><span>CRB decisions by CCB Chair — added to <strong>MoM section</strong> or DCCB Work Tracker.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <strong>One iPatient DCCB</strong> · Pune · Haifa · Suzhou · Shenyang &nbsp;|&nbsp; Philips Healthcare &nbsp;|&nbsp; 2 CCBs/week · Tue &amp; Thu
+</footer>
+
+</body>
+</html>
